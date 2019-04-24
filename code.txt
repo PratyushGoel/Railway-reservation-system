@@ -1,0 +1,225 @@
+#MySQL 5.7.12
+#please drop objects you've created at the end of the script 
+#or check for their existance before creating
+#'\\' is a delimiter
+
+DROP TABLE IF EXISTS Train, nonexistent_table, Train_class, Days_Available, Station, Passenger, Passenger_ticket, Reservation, Train_status, Route, Route_HAS_Station, User_table, Admin_table;
+
+create table Train (
+  Train_ID int, 
+  Train_name varchar(50), 
+  Train_type varchar(50), 
+  Source_stn varchar(30), 
+  Destination_stn varchar(30), 
+  Source_ID varchar(8), 
+  Destination_ID varchar(8) 
+);
+
+create table Train_class (
+  Train_ID int,  
+  Fare_Class1 int, 
+  Seat_Class1 int, 
+  Fare_Class2 int, 
+  Seat_Class2 int, 
+  Fare_Class3 int, 
+  Seat_Class3 int 
+);
+
+Create table Station(
+  station_ID int, 
+  Station_Name varchar(25) 
+);
+
+create table Passenger (
+  PNR varchar(25) , 
+  Seat_number int , 
+  Passenger_name varchar(30) , 
+  Age int , 
+  Gender varchar(8) , 
+  Train_ID int 
+);
+
+create table Passenger_ticket (
+  PNR varchar(25), 
+  Source_ID varchar(8), 
+  Destination_ID varchar(8), 
+  Class_type varchar(50), 
+  Reservation_status varchar(25), 
+  Train_ID int 
+);
+
+create table Reservation (
+  Train_ID int, 
+  Available_Date varchar(20), 
+  Email_ID varchar(30), 
+  PNR varchar(20), 
+  Reservation_Date text, 
+  Reservation_Status varchar(20) 
+);
+
+create table Train_status (
+  Train_ID int, 
+  Available_Date varchar(20), 
+  Booked_seats3 int, 
+  Waiting_seats3 int, 
+  Available_seats3 int
+);
+
+create table Route (
+  Train_ID int, 
+  Stop_number int, 
+  Station_ID varchar(8), 
+  Arrival_time text, 
+  Departure_time text, 
+  Source_distance int
+);
+
+create table Route_HAS_Station (
+  Train_ID int, 
+  Station_ID varchar(8), 
+  Stop_number int 
+); 
+
+Create table User_table (
+  EmailID varchar(30), 
+  Password varchar(15), 
+  FullName varchar(30), 
+  Gender varchar(8), 
+  Age int, 
+  Mobile varchar(14), 
+  City varchar(20), 
+  State varchar(25), 
+  Security_question varchar(40), 
+  Security_answer varchar(20)
+);
+
+create table Admin_table (
+  User_ID varchar(20), 
+  Password varchar(15) 
+);
+
+insert into User_table values 
+    ('pratyushgoel99@gmail.com', 'pass1', 'Pratyush Goel', 'Male', '19', '9711051347', 'Delhi', 'Delhi', 'Who is your brother?', 'Pranav'),
+    ('pranavgoel157@gmail.com', 'pass1', 'Pranav Goel', 'Male', '22', '8851605797', 'Delhi', 'Delhi', 'Who is your brother?', 'Pratyush'),
+    ('kamla@gmail.com', 'pass1', 'Kamla Goel', 'Female', '80', '9310094554', 'Delhi', 'Delhi', 'Who is your brother?', 'Ram'),
+    ('kishore@gmail.com', 'pass1', 'Kishore Goel', 'Male', '81', '985446789', 'Delhi', 'Delhi', 'Who is your brother?', 'Ram'),
+    ('praveen@gmail.com', 'pass1', 'Praveen Goel', 'Male', '46', '9310091554', 'Delhi', 'Delhi', 'Who is your brother?', 'Ram');
+
+
+insert into train values
+    ('12345', 'Rajdhani', 'Super Fast', 'Jaipur', 'Pune', '111', '333'),
+    ('23456', 'Shatabdi', 'Super Fast', 'Delhi', 'Pune', '222', '333'),
+    ('34567', 'NeelKamal', 'Fast', 'Mumbai', 'Chennia', '444', '555'),
+    ('45678', 'Kamdhenu', 'Fast', 'Jaipur', 'Pune', '111', '333'),
+    ('56789', 'IndoKumari', 'Fast', 'Banglore', 'Ghaziabad', '666', '777');
+
+insert into train_class values
+    ('12345', '111111', '111111', '111111', '111111', '111111', '111111'),
+    ('23456', '111111', '111111', '111111', '111111', '111111', '111111'),
+    ('34567', '111111', '111111', '111111', '111111', '111111', '111111'),
+    ('45678', '111111', '111111', '111111', '111111', '111111', '111111'),
+    ('56789', '111111', '111111', '111111', '111111', '111111', '111111');
+
+insert into station values
+    ('111', 'Jaipur'),
+    ('333', 'Pune'),
+    ('222', 'Delhi'),
+    ('444', 'Mumbai'),
+    ('555', 'Chennai'),
+    ('666', 'Banglore'),
+    ('777', 'Ghaziabad');
+
+insert into passenger values
+    ('123', 1, 'Pratyush Goel', 19, 'Male', 12345),
+    ('234', 2, 'Pranav Goel', 22, 'Male', 12345),
+    ('345', 3, 'Kamla Goel', 80, 'Female', 34567),
+    ('456', 4, 'Kishore Goel', 81, 'Male', 45678),
+    ('567', 5, 'Praveen Goel', 46, 'Male', 56789);
+    
+insert into reservation values
+    ('12345', '24April', 'pratyushgoel99@gmail.com', 123, '22April', 'Confirmed' ),
+    ('12345', '24April', 'pranavgoel157@gmail.com', 234, '22April', 'Confirmed' ),
+    ('34567', '24April', 'kamla@gmail.com', 345, '22April', 'Confirmed' ),
+    ('45678', '24April', 'kishore@gmail.com', 456, '22April', 'Waiting' ),
+    ('56789', '24April', 'praveen@gmail.com', 567, '22April', 'RAC' );
+    
+
+insert into passenger_ticket values
+    (123, 111, 333, 'Super Fast', 'Confirmed', 12345),
+    (234, 111, 333, 'Super Fast', 'Confirmed', 12345),
+    (345, 222, 333, 'Super Fast', 'Confirmed', 23456),
+    (456, 111, 333, 'Fast', 'Confirmed', 45678),
+    (567, 111, 333, 'Super Fast', 'Confirmed', 12345);
+    
+insert into train_status values
+    (12345, '24April', 2, 0, 60 ),
+    (23456, '24April', 1, 0, 60 ),
+    (34567, '24April', 1, 0, 60 ),
+    (45678, '24April', 1, 0, 60 ),
+    (56789, '24April', 1, 0, 60 );
+    
+insert into route values
+    ( 12345, 10, 111, '22:00', '10:00', 100 ),
+    ( 23456, 20, 222, '22:00', '10:00', 200 ),
+    ( 34567, 30, 444, '22:00', '10:00', 300 ),
+    ( 45678, 40, 111, '22:00', '10:00', 100 ),
+    ( 56789, 50, 666, '22:00', '10:00', 400 );
+  
+insert into Route_HAS_Station values
+    (12345, 111, 10),
+    (23456, 222, 20),
+    (34567, 444, 30),
+    (45678, 111, 40),
+    (56789, 666, 50);
+
+
+-- Find source Destination PNR seatNumber for a given passenger
+select t.Source_stn, t.Destination_stn,  p.PNR, p.Seat_Number, p.Passenger_name 
+from train t, passenger p
+where t.train_ID = p.train_ID AND p.passenger_name = 'Pratyush Goel';
+
+-- list of passenger with status as confirmed for a given train
+select r.train_id, p.passenger_name, r.reservation_status
+from passenger p, reservation r
+where p.PNR = r.PNR AND r.train_id = 12345;
+
+-- what is the count of all stations
+select count(station_id) from station;
+
+-- list of all passengers with status for a given train
+select passenger_name, train_id
+from passenger
+where train_id = 12345;
+
+-- how many passengers are travelling in particular train
+select count(*) AS PassengerCount, train_ID
+from passenger group by train_ID;
+
+-- Number of seats available for a particular train
+select train_id, available_seats3, available_date
+from train_status;
+
+-- Number of males/females travelling in given train
+select Gender, count(Distinct(Gender)) AS count
+from passenger
+where train_ID = 12345;
+
+-- All train starting from particular station
+select t.train_name, s.station_Name 
+from station s, train t, route_HAS_Station rhs
+where t.train_id = rhs.train_id AND s.station_ID = rhs.station_id;
+
+-- senior citizen passengers travelling in a train
+
+select passenger_name, age, train_ID
+from passenger
+where age > 60;
+
+-- selct cheapest train from given source station and destination station
+
+select t.train_name, t.train_type, t.Source_stn	, t.Destination_stn, min(tc.Fare_Class1) AS minimumFare
+from train t, train_class tc
+where t.Train_ID = tc.Train_ID;
+
+
+
